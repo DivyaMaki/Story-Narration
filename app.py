@@ -18,7 +18,7 @@ from PIL import Image
 warnings.simplefilter('ignore', InsecureRequestWarning)
 
 # Initialize Cohere client
-cohere_api_key = "TBQL0J15hlf4IvXnhbJQysbY0YQtgE0SbhL3uEmV"  # Replace with your actual Cohere API key
+cohere_api_key = "YOUR API KEY"
 cohere_client = cohere.Client(cohere_api_key)
 
 # Function to generate a story using Cohere
