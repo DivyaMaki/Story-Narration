@@ -1,85 +1,134 @@
-Text to Story Narration
+# Story Generator Application
 
-Overview
+Overview:
+	This project uses multiple AI models to generate a multimedia story based on a user input prompt. 
+	It integrates models for text generation (via Cohere), image generation (via Stable Diffusion), audio generation (via Google TTS), and video creation (via MoviePy). 
+	The output includes a text-based story, images, an audio narration, and a video combining all the elements.
+ 
+Features:
 
-The Text to Story Narration application is a Streamlit-based tool that transforms a user-provided text prompt into a narrated story with accompanying visuals. This application leverages Cohere's AI capabilities to generate stories, Google's gTTS for voice narration, and MoviePy for video creation. Additionally, it uses Selenium to automate the image generation process through an online text-to-image generator, and the final output is presented as both an animated GIF and a video.
+ ```
+	Story Generation: Given a prompt, the application generates a short story using Cohere’s language model.
 
-Features
+	Image Generation: For each segment of the story, it generates images using the Stable Diffusion model.
 
-● Story Generation: Utilizes Cohere's NLP model to create a narrative based on user input.
+	Audio Generation: Converts the generated story into an audio file using Google's Text-to-Speech (gTTS) API.
 
-● Image Generation: Automates image creation using Selenium and an online generator based on the story content.
+	Video Creation: Combines the generated images and audio into a video using MoviePy, producing a final video file.
+```
 
-● Audio Narration: Converts the generated story into an audio file using gTTS.
+Requirements:
 
-● Video Creation: Compiles images and narration into a video file using MoviePy.
+To run the application, you need to install the following dependencies:
 
-● Animated GIF: Creates an animated GIF from the generated images.
+```
+	Python 3.8+
 
-Requirements
+	Gradio: For creating the web-based interface.
 
-Before running the project, ensure you have the following installed:
+	Cohere: For natural language processing and story generation.
 
-1.Python 3.x
+	gTTS (Google Text-to-Speech): For generating audio from text.
 
-2.Streamlit
+	MoviePy: For creating videos by combining images and audio.
 
-3.gTTS
+	Transformers: For loading the GPT-2 model to process text.
 
-4.MoviePy
+	Diffusers: For using the Stable Diffusion model to generate images.
 
-5.Selenium
+	PIL (Pillow): For handling image processing.
+```
 
-6.Cohere Python SDK
+Install Dependencies:
 
-7.PIL (Pillow)
+```
+	pip install gradio gtts moviepy transformers diffusers torch cohere Pillow
+```
 
-Requests
+Download Pretrained Models:
 
-● You can install the required packages using pip:
+Before running the script, ensure that the following models are downloaded:
 
-|pip install streamlit gtts moviepy selenium cohere pillow requests|
+```
+	GPT-2 model: Used for story generation.
 
-Additionally, you'll need:
+	Stable Diffusion model: Used for generating images from the story segments.
+```
+ 
+API Keys:
 
-● Cohere API Key: Sign up at Cohere to get an API key.
+For this application to work, you will need a valid API key from Cohere. You can obtain an API key by signing up at Cohere.
 
-● Chrome WebDriver: Download the Chrome WebDriver that matches your Chrome browser version from here.
+Once you have the API key, replace the placeholder in the code with your actual API key:
 
-Setup
+```
+ 	api_key = 'YOUR_COHERE_API_KEY'
+```
 
-Set Up Chrome WebDriver:
+Application Overview:
 
-● Download the Chrome WebDriver and place it in an accessible directory.
+  1. Story Generation
+     
+	  The story generation is powered by the Cohere API. Given a prompt, the app will generate a story, which is divided into segments (max 100 characters per segment). This ensures that the story is broken into     digestible parts for subsequent image generation.
 
-● Update the Service path in the code to point to your WebDriver location.
+  2. Image Generation
+     
+	  For each story segment, the app sends the segment text to the Stable Diffusion model, which generates an anime-style image related to the content of the segment. The image is then saved and used in the video.
 
-Configure Cohere:
+  3. Audio Generation
+     
+	  The generated story text is then converted to speech using gTTS (Google Text-to-Speech). The speech is saved as an audio file (MP3 format).
 
-● Replace cohere_api_key in the script with your actual Cohere API key.
+  4. Video Creation
+     
+	  The generated images are then assembled into a video. The video uses MoviePy to synchronize the images with the audio, ensuring that each image is shown for the correct amount of time based on the length of   the audio. The final video is saved as an MP4 file.
 
-Run the Application:
+  5. Gradio Interface
+      
+	  A simple Gradio interface is used to take the user's input (a prompt) and provide the following outputs:
 
-● Navigate to the project directory.
+	  - Generated Story (Text)
 
-Run the Streamlit application using the following command:
+	  - First Image (Image)
 
-|streamlit run app.py|
+	  - Generated Audio (MP3 File)
 
-Access the Application:
+	  - Generated Video (MP4 File)
 
-● Once the server is running, you'll be able to access the application in your web browser.
+Input
 
-Notes
+  The user provides an input prompt (a sentence) which serves as the starting point for generating a story.
 
-● The image generation process uses Selenium to interact with a third-party online service. 
+Outputs
 
-● Ensure that your WebDriver is compatible with your browser version.
+  The app will return the following:
 
-● The GIF and video creation are designed to work even with a limited number of images; however, a minimum of 6 images is recommended for optimal results.
+- Generated Story: The AI-generated short story in text format.
 
-Troubleshooting
+- Generated Image: The first image corresponding to the first segment of the story.
 
-● If the WebDriver fails to load or interact with the page, verify the path to your WebDriver and check that it matches your Chrome version.
+- Generated Audio: An MP3 file of the audio narration of the story.
 
-● In case of repeated failures during image generation, check the connection and consider increasing the timeout in the script.
+- Generated Video: An MP4 file of the video combining the images and audio.
+
+How to Run the Application
+
+1. Clone or Download the Repository
+
+	Clone or download the repository containing the code.
+
+2. Set Up API Key
+   
+	Ensure that you have the required API key from Cohere and update the following line in the script with your API key:
+	api_key = 'YOUR_COHERE_API_KEY'
+
+3. Install Dependencies
+   
+	Install the necessary dependencies as mentioned above.
+
+4. Run the Application
+   
+	To start the application, simply run the Python script:
+	python app.py
+6. Using the Gradio Interface
+Once the application is running, open a browser and navigate to the URL shown in the terminal (typically something like http://127.0.0.1:7860). There, you can enter a prompt, and the app will generate the story, images, audio, and video.
