@@ -1,18 +1,14 @@
 import gradio as gr
 from gtts import gTTS
+import spaces
 import moviepy
 from moviepy.editor import ImageSequenceClip, AudioFileClip
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from diffusers import StableDiffusionPipeline
 import torch
 import cohere
 import os
 from PIL import Image
 
-# Initialize models
-model_name = "gpt2"
-gpt2_model = GPT2LMHeadModel.from_pretrained(model_name)
-gpt2_tokenizer = GPT2Tokenizer.from_pretrained(model_name)
 
 model_id = "CompVis/stable-diffusion-v1-4"
 sd_pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
@@ -111,6 +107,7 @@ def create_video(image_files, audio_file, output_file="output_video.mp4"):
     except Exception as e:
         print(f"Error creating video: {e}")
 
+@spaces.GPU(duration=180)
 def generate_content(prompt):
     # Generate story
     story = generate_story(prompt)
