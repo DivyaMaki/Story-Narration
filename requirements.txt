@@ -8,3 +8,4 @@ transformers
 diffusers
 accelerate
 imageio-ffmpeg
+spaces
