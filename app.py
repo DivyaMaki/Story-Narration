@@ -18,20 +18,44 @@ model_id = "CompVis/stable-diffusion-v1-4"
 sd_pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 sd_pipe.to("cuda")
 
-# Set your Cohere API key
-api_key = 'YOUR-API-KEY'
-co = cohere.Client(api_key)
+# Initialize Cohere securely
+api_key = os.getenv("COHERE_API_KEY")
 
+co = cohere.ClientV2(api_key=api_key) if api_key else None
+
+# def generate_story(prompt):
+#     try:
+#         response = co.generate(
+#             model='command-xlarge',  # Change model to a supported one
+#             prompt=f"Write a short story based on: {prompt}",
+#             max_tokens=500,
+#             temperature=0.9
+#         )
+#         story = response.generations[0].text.strip()
+#         return story
+#     except Exception as e:
+#         print(f"Error generating story: {e}")
+#         return f"Error generating story: {e}"
 def generate_story(prompt):
     try:
-        response = co.generate(
-            model='command-xlarge',  # Change model to a supported one
-            prompt=f"Write a short story based on: {prompt}",
+        if co is None:
+            return "Error: Cohere API key is not configured."
+
+        response = co.chat(
+            model="command-a-03-2025",
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"Write a creative, engaging short story based on: {prompt}"
+                }
+            ],
             max_tokens=500,
             temperature=0.9
         )
-        story = response.generations[0].text.strip()
+
+        story = response.message.content[0].text.strip()
         return story
+
     except Exception as e:
         print(f"Error generating story: {e}")
         return f"Error generating story: {e}"
