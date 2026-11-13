@@ -1,0 +1,10 @@
+gradio
+cohere
+gTTS
+moviepy==1.0.3
+Pillow
+torch
+transformers
+diffusers
+accelerate
+imageio-ffmpeg
