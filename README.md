@@ -1,4 +1,3 @@
-
 ---
 title: Story Narration
 emoji: 📖
